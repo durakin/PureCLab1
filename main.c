@@ -9,6 +9,8 @@
 #define SHOW 3
 #define TASK 4
 #define QUIT 5
+#define MAX_ARRAY_SIZE 1000
+#define MAX_PAIRS_NUMBER 999000
 
 typedef struct
 {
@@ -16,7 +18,6 @@ typedef struct
     int Size;
     bool IsFilled;
 } DynArray;
-
 
 #define INPUT_SIZE 256
 
@@ -30,22 +31,33 @@ int CycleInputInt(char* stringToOutput, bool(* pChecker)(int))
         printf("%s\n", stringToOutput);
         fflush(stdout);
         char* fgetsRet = fgets(input, INPUT_SIZE, stdin);
-        if (fgetsRet == NULL) continue;
+        if (fgetsRet == NULL)
+        {
+            printf("Wrong format!\n");
+            continue;
+        }
         int inputLength = strlen(input) - 1;
         input[inputLength] = '\0';
         int sscanfRet = sscanf(input, "%d%n", &number, &position);
-        if (position != inputLength) continue;
-        if (pChecker && !pChecker(number)) continue;
+        if (position != inputLength)
+        {
+            printf("Wrong format!\n");
+            continue;
+        }
+        if (pChecker && !pChecker(number))
+        {
+            printf("Wrong format!\n");
+            continue;
+        }
         if (sscanfRet == 1) break;
         printf("Wrong format!\n");
     }
     return number;
 }
 
-
 bool SizeInputChecker(int size)
 {
-    return size >= 1;
+    return size >= 1 && size <= MAX_ARRAY_SIZE;
 }
 
 bool OperationInputChecker(int operationCode)
@@ -63,17 +75,17 @@ int main()
     DynArray objectArray;
     objectArray.IsFilled = false;
     int operationCode;
-    while (1)
+    while (true)
     {
-        printf("1. Fill array with custom values.\n"
+        printf("\n1. Fill array with custom values.\n"
                "2. Fill array with random values.\n"
                "3. Show current value of the array.\n"
                "4. Perform the task and show the result.\n"
-               "5. Quit program.\n ");
+               "5. Quit program.\n\n ");
         operationCode = CycleInputInt(
                 "Choose the command and enter its number",
                 OperationInputChecker);
-        // Ручное заполнение массива
+
         if (operationCode == FILL_CUSTOM)
         {
             if (objectArray.IsFilled)
@@ -92,7 +104,7 @@ int main()
             }
             objectArray.IsFilled = true;
         }
-        // Случайное заполнение массива
+
         if (operationCode == FILL_RANDOM)
         {
             if (objectArray.IsFilled)
@@ -113,13 +125,14 @@ int main()
         // Вывод массива
         if (operationCode == SHOW)
         {
+            printf("\nElements' values:\n");
             for (int i = 0; i < objectArray.Size; i++)
             {
                 printf("%d ", objectArray.Content[i]);
             }
-            printf("\n");
+            printf("\n\n");
         }
-        // Выполнение задачи
+
         if (operationCode == TASK)
         {
             int taskValue;
@@ -129,10 +142,10 @@ int main()
             }
             else
             {
-                taskValue = CycleInputInt("Enter m value for the task",
+                taskValue = CycleInputInt("\nEnter m value for the task",
                                           TaskValueInputChecker);
-                int arraySize = objectArray.Size * (objectArray.Size - 1) / 2;
-                int taskResult[1000][2];
+                //int arraySize = objectArray.Size * (objectArray.Size - 1) / 2;
+                int taskResult[MAX_PAIRS_NUMBER][2];
                 int taskResultIter = 0;
                 for (int i = 0; i < objectArray.Size - 1; i++)
                 {
@@ -147,13 +160,27 @@ int main()
                         }
                     }
                 }
+                printf("\nPairs:\n");
                 for (int i = 0; i < taskResultIter; i++)
                 {
-                    printf("%d and %d;\n", taskResult[i][0],
-                           taskResult[i][1]);
+                    bool pairWasPrinted;
+                    pairWasPrinted = false;
+                    for (int j = i - 1; j >= 0; j--)
+                    {
+                        if (taskResult[i][0] == taskResult[j][0] &&
+                            taskResult[i][1] == taskResult[j][1])
+                        {
+                            pairWasPrinted = true;
+                        }
+                    }
+                    if (!pairWasPrinted)
+                    {
+                        printf("%d and %d;\n", taskResult[i][0],
+                               taskResult[i][1]);
+                    }
                 }
             }
-            return 0;
+            printf("\n");
         }
         if (operationCode == QUIT)
         {
