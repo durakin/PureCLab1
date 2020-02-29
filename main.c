@@ -157,6 +157,9 @@ int main()
                             taskResult[taskResultIter][0] = objectArray.Content[i];
                             taskResult[taskResultIter][1] = objectArray.Content[j];
                             taskResultIter++;
+                            taskResult[taskResultIter][1] = objectArray.Content[i];
+                            taskResult[taskResultIter][0] = objectArray.Content[j];
+                            taskResultIter++;
                         }
                     }
                 }
