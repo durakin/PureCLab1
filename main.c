@@ -9,8 +9,8 @@
 #define SHOW 3
 #define TASK 4
 #define QUIT 5
-#define MAX_ARRAY_SIZE 1000
-#define MAX_PAIRS_NUMBER 999000
+#define MAX_ARRAY_SIZE 100
+#define MAX_PAIRS_NUMBER 9900
 
 typedef struct
 {
