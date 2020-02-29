@@ -4,13 +4,20 @@
 #include <stdbool.h>
 #include <windows.h>
 
-#define FILL_CUSTOM 1
-#define FILL_RANDOM 2
-#define SHOW 3
-#define TASK 4
-#define QUIT 5
-#define MAX_ARRAY_SIZE 100
-#define MAX_PAIRS_NUMBER 9900
+enum OperationsCodes
+{
+    FILL_CUSTOM = 1,
+    FILL_RANDOM = 2,
+    SHOW = 3,
+    TASK = 4,
+    QUIT = 5
+};
+enum Sizes
+{
+    MAX_ARRAY_SIZE = 100,
+    MAX_PAIRS_NUMBER = 9900,
+    INPUT_SIZE = 256
+};
 
 typedef struct
 {
@@ -18,8 +25,6 @@ typedef struct
     int Size;
     bool IsFilled;
 } DynArray;
-
-#define INPUT_SIZE 256
 
 int CycleInputInt(char* stringToOutput, bool(* pChecker)(int))
 {
