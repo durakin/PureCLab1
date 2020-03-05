@@ -127,7 +127,7 @@ int main()
             }
             objectArray.IsFilled = true;
         }
-        // Вывод массива
+
         if (operationCode == SHOW)
         {
             printf("\nElements' values:\n");
@@ -149,7 +149,6 @@ int main()
             {
                 taskValue = CycleInputInt("\nEnter m value for the task",
                                           TaskValueInputChecker);
-                //int arraySize = objectArray.Size * (objectArray.Size - 1) / 2;
                 int taskResult[MAX_PAIRS_NUMBER][2];
                 int taskResultIter = 0;
                 for (int i = 0; i < objectArray.Size - 1; i++)
@@ -168,28 +167,36 @@ int main()
                         }
                     }
                 }
-                printf("\nPairs:\n");
-                for (int i = 0; i < taskResultIter; i++)
+                if (taskResultIter == 0)
                 {
-                    bool pairWasPrinted;
-                    pairWasPrinted = false;
-                    for (int j = i - 1; j >= 0; j--)
+                    printf("\nNo such pairs!\n");
+                }
+                else
+                {
+                    printf("\nPairs:\n");
+                    for (int i = 0; i < taskResultIter; i++)
                     {
-                        if (taskResult[i][0] == taskResult[j][0] &&
-                            taskResult[i][1] == taskResult[j][1])
+                        bool pairWasPrinted;
+                        pairWasPrinted = false;
+                        for (int j = i - 1; j >= 0; j--)
                         {
-                            pairWasPrinted = true;
+                            if (taskResult[i][0] == taskResult[j][0] &&
+                                taskResult[i][1] == taskResult[j][1])
+                            {
+                                pairWasPrinted = true;
+                            }
                         }
-                    }
-                    if (!pairWasPrinted)
-                    {
-                        printf("%d and %d;\n", taskResult[i][0],
-                               taskResult[i][1]);
+                        if (!pairWasPrinted)
+                        {
+                            printf("%d and %d;\n", taskResult[i][0],
+                                   taskResult[i][1]);
+                        }
                     }
                 }
             }
             printf("\n");
         }
+
         if (operationCode == QUIT)
         {
             break;
