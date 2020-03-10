@@ -4,27 +4,27 @@
 #include <stdbool.h>
 #include <windows.h>
 
-enum OperationsCodes
-{
-    FILL_CUSTOM = 1,
-    FILL_RANDOM = 2,
-    SHOW = 3,
-    TASK = 4,
-    QUIT = 5
-};
-enum Sizes
-{
-    MAX_ARRAY_SIZE = 100,
-    MAX_PAIRS_NUMBER = 9900,
-    INPUT_SIZE = 256
-};
+    enum OperationsCodes
+    {
+        FILL_CUSTOM = 1,
+        FILL_RANDOM = 2,
+        SHOW = 3,
+        TASK = 4,
+        QUIT = 5
+    };
+    enum Sizes
+    {
+        MAX_ARRAY_SIZE = 100,
+        MAX_PAIRS_NUMBER = 9900,
+        INPUT_SIZE = 256
+    };
 
-typedef struct
-{
-    int* Content;
-    int Size;
-    bool IsFilled;
-} DynArray;
+    typedef struct
+    {
+        int* Content;
+        int Size;
+        bool IsFilled;
+    } DynArray;
 
 int CycleInputInt(char* stringToOutput, bool(* pChecker)(int))
 {
@@ -77,8 +77,8 @@ bool TaskValueInputChecker(int taskValue)
 
 int main()
 {
-    DynArray objectArray;
-    objectArray.IsFilled = false;
+    DynArray objArray;
+    objArray.IsFilled = false;
     int operationCode;
     while (true)
     {
@@ -93,47 +93,47 @@ int main()
 
         if (operationCode == FILL_CUSTOM)
         {
-            if (objectArray.IsFilled)
+            if (objArray.IsFilled)
             {
-                free(objectArray.Content);
+                free(objArray.Content);
             }
-            objectArray.Size = CycleInputInt("Enter number of elements",
+            objArray.Size = CycleInputInt("Enter number of elements",
                                              SizeInputChecker);
-            objectArray.Content = (int*) malloc(
-                    objectArray.Size * sizeof(int));
+            objArray.Content = (int*) malloc(
+                    objArray.Size * sizeof(int));
             printf("Enter elements' values\n");
-            for (int i = 0; i < objectArray.Size; i++)
+            for (int i = 0; i < objArray.Size; i++)
             {
-                objectArray.Content[i] = CycleInputInt("Enter element value",
+                objArray.Content[i] = CycleInputInt("Enter element value",
                                                        NULL);
             }
-            objectArray.IsFilled = true;
+            objArray.IsFilled = true;
         }
 
         if (operationCode == FILL_RANDOM)
         {
-            if (objectArray.IsFilled)
+            if (objArray.IsFilled)
             {
-                free(objectArray.Content);
+                free(objArray.Content);
             }
             srand((unsigned) time(NULL));
-            objectArray.Size = CycleInputInt("Enter number of elements",
+            objArray.Size = CycleInputInt("Enter number of elements",
                                              SizeInputChecker);
-            objectArray.Content = (int*) malloc(
-                    objectArray.Size * sizeof(int));
-            for (int i = 0; i < objectArray.Size; i++)
+            objArray.Content = (int*) malloc(
+                    objArray.Size * sizeof(int));
+            for (int i = 0; i < objArray.Size; i++)
             {
-                objectArray.Content[i] = (rand() % 201) - 100;
+                objArray.Content[i] = (rand() % 201) - 100;
             }
-            objectArray.IsFilled = true;
+            objArray.IsFilled = true;
         }
 
         if (operationCode == SHOW)
         {
             printf("\nElements' values:\n");
-            for (int i = 0; i < objectArray.Size; i++)
+            for (int i = 0; i < objArray.Size; i++)
             {
-                printf("%d ", objectArray.Content[i]);
+                printf("%d ", objArray.Content[i]);
             }
             printf("\n\n");
         }
@@ -141,7 +141,7 @@ int main()
         if (operationCode == TASK)
         {
             int taskValue;
-            if (!objectArray.IsFilled)
+            if (!objArray.IsFilled)
             {
                 printf("Array is empty\n");
             }
@@ -151,18 +151,18 @@ int main()
                                           TaskValueInputChecker);
                 int taskResult[MAX_PAIRS_NUMBER][2];
                 int taskResultIter = 0;
-                for (int i = 0; i < objectArray.Size - 1; i++)
+                for (int i = 0; i < objArray.Size - 1; i++)
                 {
-                    for (int j = i + 1; j < objectArray.Size; j++)
+                    for (int j = i + 1; j < objArray.Size; j++)
                     {
-                        if (objectArray.Content[i] % taskValue ==
-                            objectArray.Content[j] % taskValue)
+                        if (objArray.Content[i] % taskValue ==
+                            objArray.Content[j] % taskValue)
                         {
-                            taskResult[taskResultIter][0] = objectArray.Content[i];
-                            taskResult[taskResultIter][1] = objectArray.Content[j];
+                            taskResult[taskResultIter][0] = objArray.Content[i];
+                            taskResult[taskResultIter][1] = objArray.Content[j];
                             taskResultIter++;
-                            taskResult[taskResultIter][1] = objectArray.Content[i];
-                            taskResult[taskResultIter][0] = objectArray.Content[j];
+                            taskResult[taskResultIter][1] = objArray.Content[i];
+                            taskResult[taskResultIter][0] = objArray.Content[j];
                             taskResultIter++;
                         }
                     }
@@ -202,10 +202,10 @@ int main()
             break;
         }
     }
-    if (objectArray.IsFilled)
+    if (objArray.IsFilled)
     {
-        free(objectArray.Content);
-        objectArray.IsFilled = false;
+        free(objArray.Content);
+        objArray.IsFilled = false;
     }
     return 0;
 }
